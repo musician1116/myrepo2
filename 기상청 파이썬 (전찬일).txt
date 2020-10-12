@@ -1,0 +1,196 @@
+%pwd
+
+import sys
+
+import csv
+
+f= open('seoul.csv')
+data = csv.reader(f)
+
+for row in data:
+    print(row)
+    
+f.close()
+
+import csv
+
+f= open('seoul.csv')
+data = csv.reader(f)
+
+next(data)
+for row in data:
+    row[-2] = float(row[-2])
+    print(row)
+    
+f.close()
+
+import csv
+
+f= open('seoul.csv')
+data = csv.reader(f)
+
+next(data)
+for row in data:
+    if(row[-2] == '') :
+        row[-2] = 999
+    row[-2] = float(row[-2])
+    print(row)
+    
+f.close()
+
+import csv
+
+f= open('seoul.csv')
+data = csv.reader(f)
+next(data)
+
+min_temp = 999
+min_data = ''
+for row in data:
+    if(row[-2] == '') :
+        row[-2] = 999
+    row[-2] = float(row[-2])
+    
+    if min_temp > row[-2] :
+        min_temp = row[-2]
+        min_data = row[0]
+print('낮은기온 : ', min_temp, '날짜 : ', min_data) 
+    
+f.close()
+
+#일교차 구하기
+
+import csv
+
+f= open('seoul.csv')
+data = csv.reader(f)
+next(data)
+
+for row in data:
+    if row[-2] == '' or row[-1] == '' :
+        row[-1] = row[-2] = 0
+    diff = float(row[-1]) - float(row[-2])
+    print('%s  %8.1f   %8.1f  %8.1f' % (row[0], float(row[-2]), 
+                float(row[-1]), diff )) 
+f.close()
+
+#데이터 시각화
+
+import matplotlib.pyplot as plt
+
+plt.title('color')
+plt.plot([10, 20, 30, 40], color = 'blue', label = 'blue')
+plt.plot([40, 30, 20, 10], color = 'pink', label = 'pink')
+plt.legend()
+plt.show()
+
+import csv
+import matplotlib.pyplot as plt
+
+f= open('seoul.csv')
+data = csv.reader(f)
+next(data)
+
+result = []
+for row in data:
+    if row[-2] != '':
+        temp = float(row[-2])
+        result.append(temp)
+        
+print(result)
+
+
+# 한글 꺠짐, - 꺠짐 해결
+plt.rc('font', family = 'Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+
+plt.figure(figsize = (20,8))
+plt.title('서울의 최저기온')
+plt.plot(result, 'b')
+plt.show
+
+
+# 9.25 의 최저기온, 최고기온 그래프
+import csv
+import matplotlib.pyplot as plt
+
+plt.rc('font', family = 'Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+
+f= open('seoul.csv')
+data = csv.reader(f)
+next(data)
+
+high = []
+low = []
+result = []
+for row in data:
+    date =  row[0].split('-')
+    month = date[1]
+    day = date[2]
+    if row[-1] != '' and row[-2] != '':
+        if month == '09' and day == '25':
+            high.append(float(row[-1]))
+            low.append(float(row[-2]))
+
+plt.title('매년 9월 25일의 기온 그래프')
+plt.plot(high, 'hotpink', label = '최고기온')
+plt.plot(low, 'blue', label = '최저기온')
+plt.legend()
+plt.show()
+        
+		
+		# 1910~2000 년 사이의 최저기온 그래프를 표현
+
+import csv
+import matplotlib.pyplot as plt
+
+plt.rc('font', family = 'Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+
+f= open('seoul.csv')
+data = csv.reader(f)
+next(data)
+
+
+result = []
+for row in data:
+    date =  row[0].split('-')
+    year = date[0]
+    if row[-2] != '' :
+        if int(year) >= 1910 and int(year) <= 2000:
+            result.append(float(row[-2]))
+            
+plt.title('1910~2000 년 사이의 최저기온')
+plt.hist(result, bins =100, color = 'blue')
+plt.xlabel('기온')
+plt.ylabel('빈도')
+plt.show()
+ 
+ 
+ import csv
+import matplotlib.pyplot as plt
+plt.rc('font', family = 'Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+f= open('seoul.csv')
+data = csv.reader(f)
+next(data)
+first = []
+second = []
+for row in data:
+    date = row[0].split('-')
+    year = date[0]
+    if row[-2] != '' :
+        if int(year) <= 1960 :
+            first.append(float(row[-2]))
+        else :
+            second.append(float(row[-2]))
+            
+fig, axs = plt.subplots(1, 2, figsize=(10,4))
+ax = axs[0]
+ax.set_title('1960년 전')
+ax.hist(first, bins=100, color ='b')
+ax = axs[1]
+ax.set_title('1960년 후')
+ax.hist(second, bins =100, color='skyblue')
+plt.show()
